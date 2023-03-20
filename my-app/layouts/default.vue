@@ -56,7 +56,7 @@ export default {
         },
       ],
       right: true,
-      titles: "Vuetify",
+      titles: "",
     };
   },
 };
@@ -66,5 +66,8 @@ nav,
 main {
   margin-top: 4rem !important;
   max-height: calc(100% - 100px) !important;
+}
+.container {
+  max-width: 100% !important;
 }
 </style>
