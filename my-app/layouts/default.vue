@@ -1,29 +1,7 @@
 <template>
   <v-app dark>
-    <v-app-bar :clipped-left="clipped" fixed>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>{{ titles }}</v-toolbar-title>
-    </v-app-bar>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title
-              >{{ drawer }} - {{ item.title }}</v-list-item-title
-            >
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <header-bar style="left: 0" />
+    <side-bar />
     <v-main>
       <v-container>
         <Nuxt />
@@ -36,8 +14,14 @@
 </template>
 
 <script>
+import HeaderBar from "@/components/layouts/HeaderBar.vue";
+import sideBar from "@/components/layouts/sideBar.vue";
 export default {
-  name: "DefaultLayout",
+  name: "Default",
+  components: {
+    HeaderBar,
+    sideBar,
+  },
   data() {
     return {
       clipped: false,
