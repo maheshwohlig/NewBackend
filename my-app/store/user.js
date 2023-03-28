@@ -47,7 +47,7 @@ export const actions = {
       }
       commit("set_loading", false);
     } catch (error) {
-      console.log("errr>>", error);
+      commit("set_error", error);
       console.log(error);
     }
   },

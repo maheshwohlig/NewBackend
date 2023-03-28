@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
+    <v-navigation-drawer class="sideBar" v-model="drawer" clipped fixed app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -15,6 +15,11 @@
           <v-list-item-content>
             <v-list-item-title> {{ item.title }}</v-list-item-title>
           </v-list-item-content>
+          <div v-if="item.logout">
+            <v-list-item-title
+              ><v-btn @click="logout()">{{ item.logout }}</v-btn>
+            </v-list-item-title>
+          </div>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -38,6 +43,10 @@ export default {
           title: "Welcome",
           to: "/",
         },
+        {
+          logout: "Logout",
+          to: "/login",
+        },
       ],
       right: true,
       titles: "",
@@ -53,5 +62,16 @@ export default {
       },
     },
   },
+  methods: {
+    logout() {
+      localStorage.removeItem("accessToken");
+    },
+  },
 };
 </script>
+
+<style scoped>
+.sideBar {
+  top: 62px !important;
+}
+</style>

@@ -94,12 +94,7 @@ export default {
   //     userLoginVerify: (state) => state.user.userLoginVerify,
   //   }),
   // },
-  // mounted() {
-  //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
-  //   if (this.accessToken) {
-  //     this.$router.push("/");
-  //   }
-  // },
+
   methods: {
     //user login function
     async userLogin() {
@@ -107,17 +102,29 @@ export default {
       try {
         // user calling api
         await this.$store.dispatch("user/configLogin", userForm);
+        console.log("sucessfully");
+
         this.$store.commit("snackbar/open", {
           text: "Login sucessfully",
           color: "success",
         });
       } catch (error) {
+        console.log("error", error);
+
         this.$store.commit("snackbar/open", {
           text: error,
           color: "error",
         });
       }
     },
+  },
+  mounted() {
+    this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
+    console.log("this.accessToke<<<<", this.accessToke);
+    if (this.accessToken) {
+      console.log("login successfully");
+      this.$router.push("/");
+    }
   },
 };
 </script>
