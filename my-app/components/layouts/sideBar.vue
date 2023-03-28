@@ -13,9 +13,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title
-              >{{ drawer }} - {{ item.title }}</v-list-item-title
-            >
+            <v-list-item-title> {{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -31,14 +29,14 @@ export default {
       fixed: false,
       items: [
         {
+          icon: "mdi-chart-bubble",
+          title: "Login",
+          to: "/login",
+        },
+        {
           icon: "mdi-apps",
           title: "Welcome",
           to: "/",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
         },
       ],
       right: true,

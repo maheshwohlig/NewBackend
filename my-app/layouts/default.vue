@@ -48,10 +48,11 @@ export default {
 <style scoped>
 nav,
 main {
-  margin-top: 4rem !important;
-  max-height: calc(100% - 100px) !important;
+  /* margin-top: 4rem !important;
+  max-height: calc(100% - 100px) !important; */
 }
 .container {
   max-width: 100% !important;
+  padding: 0;
 }
 </style>

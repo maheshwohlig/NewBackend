@@ -89,13 +89,24 @@ export default {
       loading: false,
     };
   },
+  // computed: {
+  //   ...mapState({
+  //     userLoginVerify: (state) => state.user.userLoginVerify,
+  //   }),
+  // },
+  // mounted() {
+  //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
+  //   if (this.accessToken) {
+  //     this.$router.push("/");
+  //   }
+  // },
   methods: {
     //user login function
     async userLogin() {
       const userForm = this.form;
       try {
         // user calling api
-        await this.$store.dispatch("", userForm);
+        await this.$store.dispatch("user/configLogin", userForm);
         this.$store.commit("snackbar/open", {
           text: "Login sucessfully",
           color: "success",
