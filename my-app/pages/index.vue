@@ -48,11 +48,7 @@
         </v-simple-table>
 
         <v-flex xs12 md3 class="">
-          <v-pagination
-            v-model="page"
-            :length="15"
-            :total-visible="7"
-          ></v-pagination>
+          <v-pagination :length="15" :total-visible="7"></v-pagination>
         </v-flex>
       </div>
     </v-col>
@@ -60,8 +56,10 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "IndexPage",
+  data() {
+    return {};
+  },
 };
 </script>

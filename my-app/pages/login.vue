@@ -99,32 +99,28 @@ export default {
     //user login function
     async userLogin() {
       const userForm = this.form;
-      try {
-        // user calling api
-        await this.$store.dispatch("user/configLogin", userForm);
-        console.log("sucessfully");
+      // try {
+      // user calling api
+      await this.$store.dispatch("user/configLogin", userForm);
 
-        this.$store.commit("snackbar/open", {
-          text: "Login sucessfully",
-          color: "success",
-        });
-      } catch (error) {
-        console.log("error", error);
+      console.log("login successfully");
 
-        this.$store.commit("snackbar/open", {
-          text: error,
-          color: "error",
-        });
+      //   this.$store.commit("snackbar/open", {
+      //     text: "Login sucessfully",
+      //     color: "success",
+      //   });
+      // } catch (error) {
+      //   console.log("error", error);
+      //   this.$store.commit("snackbar/open", {
+      //     text: error,
+      //     color: "error",
+      //   });
+      // }
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
+      if (this.accessToken) {
+        this.$router.push("/");
       }
     },
-  },
-  mounted() {
-    this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
-    console.log("this.accessToke<<<<", this.accessToke);
-    if (this.accessToken) {
-      console.log("login successfully");
-      this.$router.push("/");
-    }
   },
 };
 </script>
