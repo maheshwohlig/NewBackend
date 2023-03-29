@@ -89,22 +89,36 @@ export default {
       loading: false,
     };
   },
+  // computed: {
+  //   ...mapState({
+  //     userLoginVerify: (state) => state.user.userLoginVerify,
+  //   }),
+  // },
+
   methods: {
     //user login function
     async userLogin() {
       const userForm = this.form;
-      try {
-        // user calling api
-        await this.$store.dispatch("", userForm);
-        this.$store.commit("snackbar/open", {
-          text: "Login sucessfully",
-          color: "success",
-        });
-      } catch (error) {
-        this.$store.commit("snackbar/open", {
-          text: error,
-          color: "error",
-        });
+      // try {
+      // user calling api
+      await this.$store.dispatch("user/configLogin", userForm);
+
+      console.log("login successfully");
+
+      //   this.$store.commit("snackbar/open", {
+      //     text: "Login sucessfully",
+      //     color: "success",
+      //   });
+      // } catch (error) {
+      //   console.log("error", error);
+      //   this.$store.commit("snackbar/open", {
+      //     text: error,
+      //     color: "error",
+      //   });
+      // }
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
+      if (this.accessToken) {
+        this.$router.push("/");
       }
     },
   },

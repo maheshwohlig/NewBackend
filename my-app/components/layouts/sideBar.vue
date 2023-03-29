@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
+    <v-navigation-drawer class="sideBar" v-model="drawer" clipped fixed app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -13,10 +13,13 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title
-              >{{ drawer }} - {{ item.title }}</v-list-item-title
-            >
+            <v-list-item-title> {{ item.title }}</v-list-item-title>
           </v-list-item-content>
+          <div v-if="item.logout">
+            <v-list-item-title
+              ><v-btn @click="logout()">{{ item.logout }}</v-btn>
+            </v-list-item-title>
+          </div>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -31,14 +34,18 @@ export default {
       fixed: false,
       items: [
         {
+          icon: "mdi-chart-bubble",
+          title: "Login",
+          to: "/login",
+        },
+        {
           icon: "mdi-apps",
           title: "Welcome",
           to: "/",
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          logout: "Logout",
+          to: "/login",
         },
       ],
       right: true,
@@ -55,5 +62,16 @@ export default {
       },
     },
   },
+  methods: {
+    logout() {
+      localStorage.removeItem("accessToken");
+    },
+  },
 };
 </script>
+
+<style scoped>
+.sideBar {
+  top: 62px !important;
+}
+</style>

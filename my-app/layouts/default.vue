@@ -1,7 +1,9 @@
 <template>
   <v-app dark>
-    <header-bar style="left: 0" />
-    <side-bar />
+    <div v-if="accessToken">
+      <header-bar style="left: 0" />
+      <side-bar />
+    </div>
     <v-main>
       <v-container>
         <Nuxt />
@@ -41,17 +43,20 @@ export default {
       ],
       right: true,
       titles: "",
+      accessToken: null,
     };
+  },
+  mounted() {
+    this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
+    if (!this.accessToken) {
+      this.$router.push("/login");
+    }
   },
 };
 </script>
 <style scoped>
-nav,
-main {
-  margin-top: 4rem !important;
-  max-height: calc(100% - 100px) !important;
-}
 .container {
   max-width: 100% !important;
+  padding: 0;
 }
 </style>

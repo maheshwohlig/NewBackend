@@ -1,7 +1,8 @@
 <template>
   <v-app-bar :clipped-left="clipped" fixed app>
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-    <v-toolbar-title>{{ titles }}</v-toolbar-title>
+    <!-- <v-toolbar-title>{{ title }}</v-toolbar-title> -->
+    <!-- <v-img height="inherit" :src="require('@/assets/Img/logo.png')"></v-img> -->
   </v-app-bar>
 </template>
 <script>
@@ -22,3 +23,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>
