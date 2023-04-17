@@ -14,8 +14,10 @@ export const mutations = {
   },
   set_model(state, data) {
     state.model = data;
+    console.log("snackbarTexts>>>", state.model);
   },
   open(state, { text, color }) {
+    console.log("{ text, color }", { text, color });
     state.texts = [text];
     state.color = color;
     state.model = true;

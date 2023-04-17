@@ -37,10 +37,14 @@
                   <v-icon>mdi-pen</v-icon>
                 </td>
                 <td>
-                  <v-icon>mdi-eye</v-icon>
+                  <v-btn to="/memberTest"><v-icon>mdi-eye</v-icon></v-btn>
                 </td>
-                <td>
-                  <v-icon>mdi-lock</v-icon>
+                <td class="lockIcon d-flex align-center">
+                  <v-btn @click="showModal()"><v-icon>mdi-lock</v-icon></v-btn>
+                  <member-lists
+                    @clicked="onClickChild"
+                    :visible="isModalVisible"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -56,10 +60,28 @@
 </template>
 
 <script>
+import MemberLists from "./model/memberlists.vue";
 export default {
+  components: { MemberLists },
   name: "IndexPage",
   data() {
-    return {};
+    return {
+      changeTitle: "",
+      isModalVisible: false,
+    };
+  },
+  methods: {
+    showModal() {
+      this.isModalVisible = !this.isModalVisible;
+    },
+    onClickChild(value) {
+      this.isModalVisible = value;
+    },
   },
 };
 </script>
+<style scoped>
+.lockIcon {
+  padding: 0 !important;
+}
+</style>
