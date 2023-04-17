@@ -26,7 +26,7 @@ export const actions = {
       const response = await this.$axios({
         method: "post",
         // baseURL: process.env.USERS_API_URL,
-        url: "https://user-backend-api.zodexchange.com/api/member/memberLogin",
+        url: "https://user-backend-api.playexchangeuat.co/api/member/memberLogin",
         data: {
           username: userForm.username,
           password: userForm.password,

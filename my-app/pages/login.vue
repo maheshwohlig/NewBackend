@@ -7,13 +7,12 @@
       fluid
       class="fill-height"
     >
-      <v-row align="center" justify="center">
+      <v-row justify="center">
         <v-col class="card" cols="12" sm="8" md="4" lg="4">
           <v-card>
             <nuxt-link to="/">
               <v-img
                 width="80%"
-                height="80%"
                 style="margin: auto"
                 class="logo"
                 :src="require('../assets/Img/logo.png')"
@@ -22,49 +21,53 @@
             <v-card-text class="text-center">
               <v-form
                 id="loginForm"
-                ref="loginForm"
                 v-model="valid"
                 autocomplete="false"
                 lazy-validation
                 @submit.prevent="userLogin"
               >
-                <v-text-field
-                  v-model="form.username"
-                  class="my-1 transparent"
-                  autocomplete="false"
-                  outlined
-                  append-icon="mdi-account"
-                  label="Enter User Name"
-                  required
-                ></v-text-field>
-
-                <v-text-field
-                  id="password"
-                  v-model="form.password"
-                  class="my-1 transparent"
-                  autocomplete="false"
-                  outlined
-                  :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-                  :type="showPassword ? 'text' : 'password'"
-                  label="Enter Password"
-                  :rules="rules.password"
-                  required
-                  @click:append="showPassword = !showPassword"
-                ></v-text-field>
-
-                <div class="py-2">
-                  <v-btn
-                    class="pa-6"
-                    id="login-btn"
-                    block
-                    :loading="loading"
-                    :disabled="!valid"
+                <v-container>
+                  <v-text-field
+                    v-model="form.username"
                     color="primary"
-                    type="submit"
-                  >
-                    Login
-                  </v-btn>
-                </div>
+                    autocomplete="false"
+                    label="Username"
+                    append-icon="mdi-account"
+                    variant="underlined"
+                    required
+                  ></v-text-field>
+
+                  <v-text-field
+                    id="password"
+                    v-model="form.password"
+                    :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="showPassword ? 'text' : 'password'"
+                    color="primary"
+                    autocomplete="false"
+                    label="Password"
+                    :rules="rules.password"
+                    variant="underlined"
+                    class="mb-0"
+                    @click:append="showPassword = !showPassword"
+                    required
+                  ></v-text-field>
+
+                  <div class="py-2 m-a">
+                    <v-btn
+                      class="pa-6 black-text"
+                      width="10px"
+                      id="login-btn"
+                      block
+                      :loading="loading"
+                      :disabled="!valid"
+                      color="primary"
+                      type="submit"
+                      style="color: black"
+                    >
+                      Login
+                    </v-btn>
+                  </div>
+                </v-container>
               </v-form>
             </v-card-text>
           </v-card>
@@ -132,13 +135,11 @@ export default {
 }
 
 .logo {
-  width: auto;
   height: 12rem;
-  margin: auto;
 }
 
 .v-card {
-  background-color: transparent !important;
+  padding: 0 !important;
 }
 
 .card {
