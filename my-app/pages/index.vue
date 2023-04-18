@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center">
     <v-col cols="12">
       <div>
         <v-simple-table class="py-1 px-3 elevation-1">
@@ -34,10 +34,10 @@
                   <v-icon>mdi-alpha-i-circle-outline</v-icon>
                 </td>
                 <td>
-                  <v-icon>mdi-pen</v-icon>
+                  <v-btn to="/memberEdit"><v-icon>mdi-pen</v-icon></v-btn>
                 </td>
                 <td>
-                  <v-btn to="/memberTest"><v-icon>mdi-eye</v-icon></v-btn>
+                  <v-btn to="/memberDetails"><v-icon>mdi-eye</v-icon></v-btn>
                 </td>
                 <td class="lockIcon d-flex align-center">
                   <v-btn @click="showModal()"><v-icon>mdi-lock</v-icon></v-btn>
