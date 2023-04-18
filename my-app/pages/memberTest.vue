@@ -4,7 +4,7 @@
       <v-tab
         class="font-weight-bold white--text v-btn v-btn--depressed v-btn--flat v-btn--outlined theme--dark text--accent-4 mx-3 my-2 py-5 px-5"
         v-for="item in items"
-        :key="item"
+        :key="item.title"
         :value="'tab-' + item"
       >
         {{ item.title }}
@@ -12,7 +12,11 @@
     </v-tabs>
 
     <v-window v-model="currentItem">
-      <v-window-item :transition="false" v-for="item in items" :key="item">
+      <v-window-item
+        :transition="false"
+        v-for="item in items"
+        :key="item.title"
+      >
         <h2>{{ item.title }}</h2>
         text
         <component v-bind:is="item.link"></component>
