@@ -33,10 +33,10 @@ export default {
       items: [
         { title: "Activity", link: "memberActivity", value: "one" },
         { title: "Balance", link: "memberBalance", value: "two" },
-        { title: "Bet List", link: "/test3", value: "three" },
-        { title: "Account Statement", link: "test3", value: "four" },
-        { title: "Transfer List", link: "/test3", value: "five" },
-        { title: "Login List", link: "test3", value: "six" },
+        { title: "Bet List", link: "memberActivity", value: "three" },
+        { title: "Account Statement", link: "memberActivity", value: "four" },
+        { title: "Transfer List", link: "memberActivity", value: "five" },
+        { title: "Login List", link: "memberActivity", value: "six" },
       ],
     };
   },
