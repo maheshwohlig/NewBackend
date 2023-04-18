@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  name: "memberTest",
+  name: "memberDetails",
   data() {
     return {
       currentItem: "tab-Web",

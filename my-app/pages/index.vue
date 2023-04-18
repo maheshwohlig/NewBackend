@@ -37,7 +37,7 @@
                   <v-btn to="/memberEdit"><v-icon>mdi-pen</v-icon></v-btn>
                 </td>
                 <td>
-                  <v-btn to="/memberTest"><v-icon>mdi-eye</v-icon></v-btn>
+                  <v-btn to="/memberDetails"><v-icon>mdi-eye</v-icon></v-btn>
                 </td>
                 <td class="lockIcon d-flex align-center">
                   <v-btn @click="showModal()"><v-icon>mdi-lock</v-icon></v-btn>
