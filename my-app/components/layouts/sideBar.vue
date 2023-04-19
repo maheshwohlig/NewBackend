@@ -79,7 +79,7 @@ export default {
             },
             {
               title: "Hierarchy Search",
-              to: "/",
+              to: "/hierarchy-search",
               icon: "mdi-chart-bubble",
             },
             {
