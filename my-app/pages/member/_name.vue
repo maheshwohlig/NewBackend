@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card-title class="headline black justify-space-between" primary-title>
-      Member Edit Profile
+      Member {{ pageName }} Profile
     </v-card-title>
     <v-card-text>
       <v-container>
@@ -210,6 +210,9 @@ export default {
     onClickButton() {
       this.$emit("clicked", false);
     },
+  },
+  created() {
+    this.pageName = this.$route.params.name;
   },
 };
 </script>
