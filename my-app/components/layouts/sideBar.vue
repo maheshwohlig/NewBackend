@@ -116,12 +116,12 @@ export default {
             },
             {
               title: "Player P/L",
-              to: "model/memberLists",
+              to: "/pl-statement",
               icon: "mdi-chart-bubble",
             },
             {
               title: "Transfer Statement",
-              to: "model/memberLists",
+              to: "/transfer-statement",
               icon: "mdi-chart-bubble",
             },
           ],
@@ -132,14 +132,14 @@ export default {
           to: "/",
         },
         {
-          to: "/memberNew",
           icon: "mdi-view-dashboard",
           title: "Dashboard",
+          to: "/",
         },
         {
-          to: "/",
           icon: "mdi-trophy",
           title: "Tournaments",
+          to: "/",
         },
         {
           icon: "mdi-chart-bubble",

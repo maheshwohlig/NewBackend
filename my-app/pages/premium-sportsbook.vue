@@ -8,14 +8,14 @@
           </v-col>
         </v-row>
         <v-col class="mb-2" cols="12">
-          <v-text-field
-            dense
-            class=""
+          <v-select
             outlined
+            :items="items"
+            dense
             label="Search Member"
-            single-line
-            hide-details
-          ></v-text-field>
+            solo
+            multiple
+          ></v-select>
         </v-col>
 
         <div class="d-flex">
@@ -102,6 +102,7 @@ export default {
     dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
     menu1: false,
     menu2: false,
+    items: ["Foo", "Bar", "Fizz", "Buzz"],
   }),
 
   computed: {
