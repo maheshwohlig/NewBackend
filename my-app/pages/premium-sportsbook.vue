@@ -33,6 +33,7 @@
               min-width="290px"
             >
               <template v-slot:activator="{ on }">
+                <div class="pa-2">From Date</div>
                 <v-text-field
                   v-model="dateFormatted"
                   persistent-hint
@@ -64,6 +65,7 @@
               min-width="290px"
             >
               <template v-slot:activator="{ on }">
+                <div class="pa-2">To Date</div>
                 <v-text-field
                   v-model="computedDateFormatted"
                   dense
@@ -81,7 +83,7 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="3" md="3">
+          <v-col class="mt-10" cols="12" sm="3" md="3">
             <div class="seachBtn">
               <v-btn color="error" class="py-4 rounded-pill">Search</v-btn>
             </div>
@@ -119,12 +121,12 @@ export default {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
+      return `${day}/${month}/${year}`;
     },
     parseDate(date) {
       if (!date) return null;
 
-      const [month, day, year] = date.split("/");
+      const [day, month, year] = date.split("/");
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
   },

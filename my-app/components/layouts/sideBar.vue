@@ -110,12 +110,17 @@ export default {
           title: "Account Statement",
           subLinks: [
             {
-              title: "Cricket_Players",
-              to: "/memberDetails",
+              title: "My P/L",
+              to: "/master-dashboard",
               icon: "mdi-chart-bubble",
             },
             {
-              title: "Soccer_Players",
+              title: "Player P/L",
+              to: "model/memberLists",
+              icon: "mdi-chart-bubble",
+            },
+            {
+              title: "Transfer Statement",
               to: "model/memberLists",
               icon: "mdi-chart-bubble",
             },
