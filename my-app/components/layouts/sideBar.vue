@@ -84,7 +84,7 @@ export default {
             },
             {
               title: "User Access Level",
-              to: "/",
+              to: "/user-access-level",
               icon: "mdi-chart-bubble",
             },
           ],
@@ -94,31 +94,16 @@ export default {
           icon: "mdi-tennis",
           subLinks: [
             {
-              title: "Net Exposure",
-              to: "/memberDetails",
+              title: "Bet Ticker",
+              to: "bet-ticker",
               icon: "mdi-chart-bubble",
             },
             {
-              title: "Bet Ticker",
-              to: "model/memberLists",
-              icon: "mdi-chart-bubble",
+              title: "Premium Sportsbook",
+              to: "premium-sportsbook",
+              icon: "mdi-trophy",
             },
           ],
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Login",
-          to: "/login",
-        },
-        {
-          icon: "mdi-apps",
-          title: "Member List",
-          to: "/",
-        },
-        {
-          to: "/memberNew",
-          icon: "mdi-view-dashboard",
-          title: "Dashboard",
         },
         {
           icon: "mdi-tennis",
@@ -137,9 +122,24 @@ export default {
           ],
         },
         {
+          icon: "mdi-apps",
+          title: "Member List",
+          to: "/",
+        },
+        {
+          to: "/memberNew",
+          icon: "mdi-view-dashboard",
+          title: "Dashboard",
+        },
+        {
           to: "/",
           icon: "mdi-trophy",
           title: "Tournaments",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Login",
+          to: "/login",
         },
         {
           logout: "Logout",
