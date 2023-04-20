@@ -91,6 +91,7 @@ export default {
   data: function () {
     return {};
   },
+
   methods: {
     onClickButton() {
       this.$emit("clicked", false);
