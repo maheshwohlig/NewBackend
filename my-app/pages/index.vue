@@ -75,7 +75,7 @@
                         <v-btn @click="showModal()"
                           ><v-icon>mdi-lock</v-icon></v-btn
                         >
-                        <member-lists
+                        <member_accessDetails
                           @clicked="onClickChild"
                           :visible="isModalVisible"
                         />
@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import MemberLists from "./model/memberlists.vue";
+import member_accessDetails from "./model/member_accessDetails.vue";
 export default {
-  components: { MemberLists },
+  components: { member_accessDetails },
   name: "IndexPage",
   data() {
     return {
