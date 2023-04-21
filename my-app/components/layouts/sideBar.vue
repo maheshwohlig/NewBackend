@@ -106,8 +106,9 @@ export default {
             },
           ],
         },
+
         {
-          icon: "mdi-tennis",
+          icon: "mdi-chart-bubble",
           title: "Account Statement",
           subLinks: [
             {
@@ -127,6 +128,7 @@ export default {
             },
           ],
         },
+
         {
           icon: "mdi-apps",
           title: "Betfair Market Fetch",
@@ -170,7 +172,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem("accessToken");
+      localStorage.clear();
     },
   },
 };

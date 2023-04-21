@@ -18,7 +18,7 @@
             <div>
               <v-btn
                 @click="newMember('Create')"
-                color="error"
+                color="#e76f26"
                 class="py-6 px-6 rounded-pill"
               >
                 <v-icon>mdi-account-plus</v-icon>Create New</v-btn
@@ -48,44 +48,61 @@
                       <th class="text-left">Lock</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>bunny</td>
-                      <td>POINT@1</td>
-                      <td>1,00,000</td>
-                      <td>NA</td>
+                  <tbody
+                    v-if="
+                      membersData &&
+                      membersData.data &&
+                      membersData.data.results &&
+                      membersData.data.results.length > 0
+                    "
+                  >
+                    <tr
+                      v-for="(memberList, i) in membersData.data.results"
+                      :key="i"
+                    >
+                      <td>{{ i }}</td>
+                      <td>{{ memberList.username }}</td>
+                      <td>{{ memberList.currency.name }}</td>
+                      <td>{{ memberList.creditLimit }}</td>
+                      <td>{{ memberList.netExposure }}</td>
                       <td>0</td>
                       <td>0</td>
-                      <td>Active</td>
+                      <td>{{ memberList.status }}</td>
                       <td>
                         <v-icon>mdi-alpha-i-circle-outline</v-icon>
                       </td>
                       <td>
-                        <v-btn to="/memberDetails"
-                          ><v-icon>mdi-eye</v-icon></v-btn
+                        <v-icon
+                          size="22"
+                          @click="memberDetails()"
+                          color="#e76f26"
+                          >mdi-eye</v-icon
                         >
                       </td>
                       <td>
-                        <v-btn @click="newMember('Edit')"
-                          ><v-icon>mdi-pen</v-icon></v-btn
+                        <v-icon
+                          size="22"
+                          @click="newMember('Edit')"
+                          color="#e76f26"
+                          >mdi-pen</v-icon
                         >
                       </td>
-                      <td class="lockIcon d-flex align-center">
-                        <v-btn @click="showModal()"
-                          ><v-icon>mdi-lock</v-icon></v-btn
+                      <td class="d-flex align-center">
+                        <v-icon size="22" @click="showModal()" color="#e76f26"
+                          >mdi-lock</v-icon
                         >
-                        <member_accessDetails
-                          @clicked="onClickChild"
-                          :visible="isModalVisible"
-                        />
                       </td>
                     </tr>
                   </tbody>
                 </template>
               </v-simple-table>
 
-              <v-flex xs12 md3 class="">
+              <member_accessDetails
+                @clicked="onClickChild"
+                :visible="isModalVisible"
+              />
+
+              <v-flex xs12 md3>
                 <v-pagination :length="15" :total-visible="7"></v-pagination>
               </v-flex>
             </div>
@@ -97,23 +114,52 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import member_accessDetails from "./model/member_accessDetails.vue";
+
 export default {
   components: { member_accessDetails },
   name: "IndexPage",
+
   data() {
     return {
       changeTitle: "",
       isModalVisible: false,
+      data: {},
+      membersLists: [],
+      accessToken: "",
     };
   },
+
+  computed: {
+    ...mapState({
+      membersData: (state) => state.memberList.membersData,
+    }),
+  },
+
   methods: {
+    async getMemberList() {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+      this.data = {
+        page: 1,
+        type: "",
+        keyword: "",
+        _accessToken: this.accessToken,
+      };
+      await this.$store.dispatch("memberList/getMemberList", this.data);
+    },
+    memberDetails() {
+      this.$router.push("/memberDetails");
+    },
+
     showModal() {
       this.isModalVisible = !this.isModalVisible;
     },
+
     onClickChild(value) {
       this.isModalVisible = value;
     },
+
     newMember(data) {
       this.$router.push({
         path: `member/${data}`,
@@ -122,6 +168,10 @@ export default {
         },
       });
     },
+  },
+
+  created() {
+    this.getMemberList();
   },
 };
 </script>
