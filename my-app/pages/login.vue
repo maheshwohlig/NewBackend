@@ -62,7 +62,7 @@
                       :disabled="!valid"
                       color="primary"
                       type="submit"
-                      style="color: black"
+                      style="color: white; background-color: #dc6e4a"
                     >
                       Login
                     </v-btn>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-card class="pa-8">
+      <v-card class="pa-5">
         <v-row class="m-0">
           <v-col class="d-flex align-center" cols="12" sm="3" md="3">
             <v-card-title class="pa-5">bet ticker</v-card-title>

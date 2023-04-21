@@ -89,6 +89,7 @@ export default {
             },
           ],
         },
+
         {
           title: "Book Management",
           icon: "mdi-tennis",
@@ -128,8 +129,8 @@ export default {
         },
         {
           icon: "mdi-apps",
-          title: "Member List",
-          to: "/",
+          title: "Betfair Market Fetch",
+          to: "/betfair-market-fetch",
         },
         {
           icon: "mdi-view-dashboard",
