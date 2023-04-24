@@ -103,7 +103,12 @@
               />
 
               <v-flex xs12 md3>
-                <v-pagination :length="15" :total-visible="7"></v-pagination>
+                <v-pagination
+                  v-model="pagination.page"
+                  v-on:click.native="paginationNav(pagination.page)"
+                  :length="15"
+                  :total-visible="7"
+                ></v-pagination>
               </v-flex>
             </div>
           </v-col>
@@ -123,6 +128,12 @@ export default {
 
   data() {
     return {
+      pagination: {
+        page: 1,
+        total: 0,
+        perPage: 0,
+        visible: 7,
+      },
       changeTitle: "",
       isModalVisible: false,
       data: {},
@@ -138,10 +149,10 @@ export default {
   },
 
   methods: {
-    async getMemberList() {
+    async getMemberList(page) {
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
       this.data = {
-        page: 1,
+        page: page ? page : 1,
         type: "",
         keyword: "",
         _accessToken: this.accessToken,
@@ -150,6 +161,10 @@ export default {
     },
     memberDetails() {
       this.$router.push("/memberDetails");
+    },
+
+    paginationNav(data) {
+      this.getMemberList(data);
     },
 
     showModal() {
