@@ -282,8 +282,8 @@
         </v-col>
         <v-flex xs12 md3>
           <v-pagination
-            v-model="pagination.page"
-            v-on:click.native="paginationNav(pagination.page)"
+            v-model="form.page"
+            v-on:click.native="paginationNav(form.page)"
             :length="15"
             :total-visible="7"
           ></v-pagination>
@@ -328,6 +328,7 @@ export default {
       toDate: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
+      page: 1,
     },
     SubGame: [
       "All",
@@ -376,6 +377,7 @@ export default {
     },
 
     async viewTableData(value) {
+      console.log(">>>>", value.page);
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
 
       let data = {
@@ -385,7 +387,7 @@ export default {
         subGame: value.SubGame,
         bookmakerSessionFlag: "CompanyMaster",
         _accessToken: this.accessToken,
-        page: 1,
+        page: value.page ? value.page : 1,
       };
 
       try {
@@ -483,6 +485,11 @@ export default {
           n.rowActive2 = false;
         }
       });
+    },
+
+    paginationNav(data) {
+      this.form.page = data;
+      this.viewTableData(this.form);
     },
   },
   created() {
