@@ -171,8 +171,8 @@
                     <th class="text-left"></th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="(event, i) in eventDetails" :key="i">
+                <tbody v-for="(event, i) in eventDetails" :key="i">
+                  <tr>
                     <td>{{ event.createdAt }}</td>
                     <td>{{ event.gameName }}</td>
                     <td>{{ event.subGame }}</td>
@@ -192,141 +192,128 @@
                       <v-btn
                         size="22"
                         class="rounded-pill"
-                        @click="newMember('Edit')"
+                        @click="viewMarketData(event)"
                         color="#d01c35"
-                        >Market</v-btn
+                        item-key="name"
+                        >{{ event.rowActive }} Market</v-btn
                       >
                     </td>
                     <td>
                       <v-btn
                         size="22"
                         class="rounded-pill"
-                        @click="newMember('Edit')"
+                        @click="viewUserData(event)"
                         color="#2a4caf"
-                        >User</v-btn
+                      >
+                        {{ event.rowActive2 }} User</v-btn
                       >
                     </td>
+                  </tr>
+                  <tr
+                    v-show="event.rowActive"
+                    v-for="(market, i) in marketData"
+                    :key="i"
+                  >
+                    <td class="text-capitalize" width="10%"></td>
+                    <td width="10%"></td>
+                    <td width="10%"></td>
+                    <td class="text-capitalize" width="10%">
+                      {{ market._id }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ market.win }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ market.commission }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ market.netAmt }}
+                    </td>
+                    <td>
+                      {{ market.winINR }}
+                    </td>
+                    <td>{{ market.commissionINR }}</td>
+                    <td>{{ market.netAmtINR }}</td>
+                    <td>{{ market.betFairAmount }}</td>
+                    <td>{{ market.uplineCommission }}</td>
+                    <td>{{ market.downlineCommission }}</td>
+                    <td>{{ market.userCount }}</td>
+                    <td>{{ market.betCount }}</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr
+                    v-show="event.rowActive2"
+                    v-for="(user, i) in userData"
+                    :key="i"
+                  >
+                    <td class="text-capitalize" width="10%"></td>
+                    <td width="10%"></td>
+                    <td width="10%"></td>
+                    <td class="text-capitalize" width="10%">
+                      {{ user._id }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ user.win }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ user.commission }}
+                    </td>
+                    <td class="text-capitalize" width="10%">
+                      {{ user.netAmt }}
+                    </td>
+                    <td>
+                      {{ user.winINR }}
+                    </td>
+                    <td>{{ user.commissionINR }}</td>
+                    <td>{{ user.netAmtINR }}</td>
+                    <td>{{ user.betFairAmount }}</td>
+                    <td>{{ user.uplineCommission }}</td>
+                    <td>{{ user.downlineCommission }}</td>
+                    <td>{{ user.userCount }}</td>
+                    <td>{{ user.betCount }}</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </template>
             </v-simple-table>
           </div>
         </v-col>
+        <v-flex xs12 md3>
+          <v-pagination
+            v-model="pagination.page"
+            v-on:click.native="paginationNav(pagination.page)"
+            :length="15"
+            :total-visible="7"
+          ></v-pagination>
+        </v-flex>
       </v-row>
+
       <div v-if="eventDetails.length === 0" class="SearchContainer">
         No Data Found
       </div>
-      <!-- <div>
-        <v-app id="inspire">
-          <v-data-table
-            :headers="dessertHeaders"
-            :items="desserts"
-            :expanded.sync="expanded"
-            item-key="name"
-            show-expand
-            class="elevation-1"
-          >
-            <template v-slot:expanded-item="{ item }">
-              <td>
-                <div v-for="(source, i) in item.sources" :key="i">
-                  {{ source.name }}
-                </div>
-              </td>
-              <td>
-                <p v-for="(source, i) in item.sources" :key="i">
-                  {{ source.calories }}
-                </p>
-              </td>
-              <td>
-                <p v-for="(source, i) in item.sources" :key="i">
-                  {{ source.fat }}
-                </p>
-              </td>
-              <td>
-                <p v-for="(source, i) in item.sources" :key="i">
-                  {{ source.carbs }}
-                </p>
-              </td>
-            </template>
-          </v-data-table>
-        </v-app>
-      </div> -->
     </v-container>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   data: (vm) => ({
+    pagination: {
+      page: 1,
+      total: 0,
+      perPage: 0,
+      visible: 7,
+    },
+    Markets: "",
     expanded: [],
-    dessertHeaders: [
-      {
-        text: "Dessert (100g serving)",
-        align: "start",
-        sortable: false,
-        value: "name",
-      },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "", value: "data-table-expand" },
-    ],
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        sources: [
-          {
-            name: "USDA",
-            calories: 167,
-            fat: 5.2,
-            carbs: 25,
-          },
-          {
-            name: "BLS",
-            calories: 143,
-            fat: 7.1,
-            carbs: 22,
-          },
-          {
-            name: "SLV",
-            calories: 157,
-            fat: 6.2,
-            carbs: 24,
-          },
-        ],
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        sources: [
-          {
-            name: "USDA",
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-          },
-        ],
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        sources: [
-          {
-            name: "USDA",
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-          },
-        ],
-      },
-    ],
+    eventName: "",
+    marketData: "",
+    userData: "",
+
+    event: { rowActive: false, rowActive2: false },
 
     menu1: false,
     menu2: false,
@@ -411,6 +398,91 @@ export default {
       } catch (error) {
         console.log("errorrr>>>>", error);
       }
+    },
+
+    async viewMarketData(event) {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+      let data = {
+        game: "5b36053e46123555cca93993",
+        fromDate: this.form.fromDate,
+        toDate: this.form.toDate,
+        eventId: "64463371a747ade25c7b4272",
+        typeName: "All",
+        accessToken: this.accessToken,
+      };
+
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://mypl.playexchangeuat.co/account/getMarketWithinEvent",
+          data,
+        });
+        this.marketData = response.data.data;
+        console.log("response>>>>market>>>>", response.data.data[0]);
+        this.Markets = response.data;
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+      _.each(this.eventDetails, (n, key) => {
+        if (n.eventName == "null") {
+          n.eventName = key;
+        }
+        // console.log("n.eventName>>>", n.eventName, event.eventName);
+
+        if (n.eventName.toString() == event.eventName.toString()) {
+          this.eventName = event.eventName;
+          n.rowActive = true;
+          n.rowActive2 = false;
+        } else {
+          n.rowActive = false;
+          n.rowActive2 = false;
+        }
+      });
+      // console.log("eventDetails>>>", this.eventDetails);
+    },
+
+    async viewUserData(event) {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+      let data = {
+        game: "5b36053e46123555cca93993",
+        fromDate: this.form.fromDate,
+        toDate: this.form.toDate,
+        eventId: "64463371a747ade25c7b4272",
+        typeName: "All",
+        accessToken: this.accessToken,
+      };
+
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://mypl.playexchangeuat.co/account/getUsersWithinEvent",
+          data,
+        });
+        this.userData = response.data.data;
+        console.log("response>>>>market>>>>", response.data.data[0]);
+        this.Markets = response.data;
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+
+      _.each(this.eventDetails, (n, key) => {
+        if (n.eventName == "null") {
+          n.eventName = key;
+        }
+        // console.log("n.eventName>>>", n.eventName, event.eventName);
+
+        if (n.eventName.toString() == event.eventName.toString()) {
+          this.eventName = event.eventName;
+          n.rowActive = false;
+          n.rowActive2 = true;
+          console.log("evnt.rowActive2>>", this.eventDetails);
+        } else {
+          n.rowActive = false;
+          n.rowActive2 = false;
+        }
+      });
     },
   },
   created() {
