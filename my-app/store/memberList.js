@@ -23,10 +23,10 @@ export const actions = {
     try {
       const response = await this.$axios({
         method: "post",
-        url: "https://user-backend-api.playexchangeuat.co/api/Member/searchMemberData",
+        baseURL: process.env.API_BASE_URL,
+        url: "/api/Member/searchMemberData",
         data,
       });
-      console.log("response>>>>>", response);
 
       if (response.data.value === true) {
         commit("membersList_data", response.data);

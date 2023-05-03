@@ -195,7 +195,8 @@
                         @click="viewMarketData(event)"
                         color="#d01c35"
                         item-key="name"
-                        >{{ event.rowActive }} Market</v-btn
+                      >
+                        Market</v-btn
                       >
                     </td>
                     <td>
@@ -205,7 +206,7 @@
                         @click="viewUserData(event)"
                         color="#2a4caf"
                       >
-                        {{ event.rowActive2 }} User</v-btn
+                        User</v-btn
                       >
                     </td>
                   </tr>
