@@ -47,9 +47,6 @@ export const actions = {
         console.log(localStorage.getItem("userData"));
       }
       commit("set_loading", false);
-
-      const headers = { Authorization: `Bearer ${token}` };
-      return axios.get(URLConstants.USER_URL, { headers });
     } catch (error) {
       commit("set_error", error);
       console.log(error);
