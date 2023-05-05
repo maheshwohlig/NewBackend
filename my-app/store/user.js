@@ -19,21 +19,22 @@ export const mutations = {
     state.loading = data;
   },
 };
+
 export const actions = {
   // user calling api
-  async configLogin({ commit }, userForm) {
+  async UserLogin({ commit }, userForm) {
     try {
       const response = await this.$axios({
         method: "post",
-        // baseURL: process.env.USERS_API_URL,
-        url: "https://user-backend-api.playexchangeuat.co/api/member/memberLogin",
+        baseURL: process.env.API_BASE_URL,
+        url: "/api/member/memberLogin",
         data: {
           username: userForm.username,
           password: userForm.password,
           siteOrigin: "zodexchange.com",
         },
       });
-      console.log("response>>>>>", response);
+
       if (response.data.value === true) {
         commit("set_user_verify_data", response.data);
         console.log(response.data);
@@ -46,6 +47,9 @@ export const actions = {
         console.log(localStorage.getItem("userData"));
       }
       commit("set_loading", false);
+
+      const headers = { Authorization: `Bearer ${token}` };
+      return axios.get(URLConstants.USER_URL, { headers });
     } catch (error) {
       commit("set_error", error);
       console.log(error);
