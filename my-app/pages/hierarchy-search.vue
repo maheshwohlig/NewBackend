@@ -8,23 +8,102 @@
           >
           <h2>Hierarchy Search</h2>
         </div>
-        <div>
-          <v-text-field
-            class="mt-10 mx-5"
-            outlined
-            density="compact"
-            variant="solo"
-            label="Search Member"
-            append-inner-icon="mdi-magnify"
-            single-line
-            hide-details
-          ></v-text-field>
+        <div class="mt-10 ml-10">
+          <v-layout row>
+            <v-flex>
+              <v-select
+                v-model="selectedItems"
+                label="Select One Or Many"
+                :items="items"
+                item-text="firstName"
+                multiple
+                outlined
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    :key="JSON.stringify(data.item)"
+                    close
+                    class="chip--select-multi"
+                    @input="data.parent.selectItem(data.item)"
+                  >
+                    {{ data.item.firstName }}
+                  </v-chip>
+                </template>
+                <template v-slot:item="data">
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ data.item.firstName }}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </template>
+              </v-select>
+            </v-flex>
+          </v-layout>
         </div>
       </v-card>
       <div class="SearchContainer">Search result will be listed here.</div>
     </v-container>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      selectedItems: "",
+      chosenItems: [],
+      items: [
+        {
+          firstName: "John",
+          lastName: "Smith",
+          Age: 44,
+        },
+        {
+          firstName: "Sarah",
+          lastName: "Martin",
+          Age: 32,
+        },
+        {
+          firstName: "Derick",
+          lastName: "Johnson",
+          Age: 39,
+        },
+        {
+          firstName: "Mary",
+          lastName: "Spitzer",
+          Age: 22,
+        },
+        {
+          firstName: "Wendy",
+          lastName: "Macdonald",
+          Age: 57,
+        },
+      ],
+    };
+  },
+
+  // methods: {
+  //   async viewMarketData(event) {
+  //     this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+  //     let data = {
+  //       _accessToken: this.accessToken,
+  //     };
+
+  //     try {
+  //       const response = await this.$axios({
+  //         method: "Post",
+  //         url: "https://user-backend-api.playexchangeuat.co/api/Member/searchHierarchyWithoutPagination",
+  //         data,
+  //       });
+  //       console.log("response>>>>market>>>>", response);
+  //     } catch (error) {
+  //       console.log("errorrr>>>>", error);
+  //     }
+  //   },
+  // },
+};
+</script>
+
 <style scoped>
 .SearchContainer {
   display: flex;
