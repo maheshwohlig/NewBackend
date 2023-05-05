@@ -379,26 +379,37 @@ export default {
     },
 
     async viewTableData(value) {
-      console.log(">>>>", value.page);
+      const fromDate = new Date(value.fromDate).toISOString();
+      const toDate = new Date(value.toDate).toISOString();
+
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
 
       let data = {
         game: "5b36053e46123555cca93993",
-        fromDate: value.fromDate,
-        toDate: value.toDate,
+        fromDate: fromDate,
+        toDate: toDate,
         subGame: value.SubGame,
-        bookmakerSessionFlag: "CompanyMaster",
-        _accessToken: this.accessToken,
+        matchName: "All",
         page: value.page ? value.page : 1,
       };
 
       try {
         const response = await this.$axios({
           method: "Post",
-          url: "https://mypl.playexchangeuat.co/account/getMasterDashboard",
+          baseURL: process.env.snowflake_URL,
+          url: "/account/getPLBySubGame",
           data,
         });
-        this.eventDetails = response.data.data.results;
+        console.log("response>>", response);
+        if (
+          response &&
+          response.data &&
+          response.data.data &&
+          response.data.data.results &&
+          response.data.data.results.data
+        ) {
+          this.eventDetails = response.data.data.results.data;
+        }
       } catch (error) {
         console.log("errorrr>>>>", error);
       }
