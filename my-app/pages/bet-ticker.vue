@@ -18,7 +18,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col class="mb-2" cols="12">
+          <v-col class="" cols="12">
             <v-text-field
               dense
               class=""
@@ -31,7 +31,7 @@
         </v-row>
         <v-row>
           <v-col cols="3">
-            <div class="pa-2">Select TM</div>
+            <div class="px-2">Select TM</div>
             <v-text-field
               dense
               class=""
@@ -42,7 +42,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select SubGame</div>
+            <div class="px-2">Select SubGame</div>
             <v-select
               outlined
               :items="items"
@@ -52,7 +52,7 @@
             ></v-select>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Min Bet</div>
+            <div class="px-2">Min Bet</div>
             <v-text-field
               dense
               class=""
@@ -63,7 +63,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select Bet</div>
+            <div class="px-2">Select Bet</div>
             <v-text-field
               class=""
               dense
@@ -76,7 +76,7 @@
         </v-row>
         <v-row>
           <v-col cols="3">
-            <div class="pa-2">Select MinBet</div>
+            <div class="px-2">Select MinBet</div>
             <v-text-field
               class=""
               dense
@@ -87,7 +87,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select Bets</div>
+            <div class="px-2">Select Bets</div>
             <v-select
               dense
               outlined
@@ -97,7 +97,7 @@
             ></v-select>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select Bet</div>
+            <div class="px-2">Select Bet</div>
             <v-text-field
               dense
               class=""
@@ -108,7 +108,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select Bet</div>
+            <div class="px-2">Select Bet</div>
             <v-text-field
               dense
               class=""
@@ -121,7 +121,7 @@
         </v-row>
         <v-row>
           <v-col cols="3">
-            <div class="pa-2">Select Bet</div>
+            <div class="px-2">Select Bet</div>
             <v-text-field
               class=""
               dense
@@ -132,7 +132,7 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="pa-2">Select Bet</div>
+            <div class="px-2">Select Bet</div>
             <v-select
               outlined
               dense
@@ -141,7 +141,7 @@
               solo
             ></v-select>
           </v-col>
-          <v-col class="mt-10" cols="3">
+          <v-col class="mt-6" cols="3">
             <div class="seachBtn">
               <v-btn color="error" class="py-4 rounded-pill">Search</v-btn>
             </div>
