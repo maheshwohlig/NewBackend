@@ -107,10 +107,8 @@ export default {
 
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
       if (this.accessToken) {
-        this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
-        this.$axios.defaults.headers.common[
-          "x-key-id"
-        ] = `Bearer ${this.accessToken}`;
+        const Token = JSON.parse(localStorage.getItem("accessToken"))[0];
+        this.$axios.defaults.headers.common["x-key-id"] = `Bearer ${Token}`;
         this.$router.push("/");
       }
     },
