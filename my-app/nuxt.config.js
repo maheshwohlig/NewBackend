@@ -14,12 +14,14 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
       { content: process.env.myAppBaseURL },
+      { content: process.env.snowFlakeURL },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
   env: {
     myAppBaseURL: process.env.API_BASE_URL || "http://localhost:3000",
+    snowFlakeURL: process.env.snowflake_URL || "http://localhost:3000",
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
