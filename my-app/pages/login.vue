@@ -107,6 +107,10 @@ export default {
 
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"));
       if (this.accessToken) {
+        this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+        this.$axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${this.accessToken}`;
         this.$router.push("/");
       }
     },
