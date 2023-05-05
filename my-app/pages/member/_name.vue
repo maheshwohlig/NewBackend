@@ -314,7 +314,8 @@ export default {
         try {
           const response = await this.$axios({
             method: "Post",
-            url: "https://user-backend-api.playexchangeuat.co/api/member/checkMemberByName",
+            baseURL: process.env.API_BASE_URL,
+            url: "/api/member/checkMemberByName",
             params,
           });
           console.log("response>>>>>", response);
