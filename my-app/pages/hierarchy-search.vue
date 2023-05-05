@@ -18,6 +18,7 @@
                 item-text="firstName"
                 multiple
                 outlined
+                :menu-props="{ closeOnContentClick: true }"
               >
                 <template v-slot:selection="data">
                   <v-chip
@@ -25,6 +26,7 @@
                     close
                     class="chip--select-multi"
                     @input="data.parent.selectItem(data.item)"
+                    @click:close="remove(data.item.firstName)"
                   >
                     {{ data.item.firstName }}
                   </v-chip>
@@ -49,7 +51,7 @@
 export default {
   data() {
     return {
-      selectedItems: "",
+      selectedItems: [],
       chosenItems: [],
       items: [
         {
@@ -81,30 +83,38 @@ export default {
     };
   },
 
-  // methods: {
-  //   async viewMarketData(event) {
-  //     this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+  methods: {
+    remove(item) {
+      const index = this.selectedItems.indexOf(item);
+      if (index >= 0) this.selectedItems.splice(index, 1);
+    },
 
-  //     let data = {
-  //       _accessToken: this.accessToken,
-  //     };
+    // async viewMarketData(event) {
+    //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
 
-  //     try {
-  //       const response = await this.$axios({
-  //         method: "Post",
-  //         url: "https://user-backend-api.playexchangeuat.co/api/Member/searchHierarchyWithoutPagination",
-  //         data,
-  //       });
-  //       console.log("response>>>>market>>>>", response);
-  //     } catch (error) {
-  //       console.log("errorrr>>>>", error);
-  //     }
-  //   },
-  // },
+    //   let data = {
+    //     _accessToken: this.accessToken,
+    //   };
+
+    //   try {
+    //     const response = await this.$axios({
+    //       method: "Post",
+    //       url: "https://user-backend-api.playexchangeuat.co/api/Member/searchHierarchyWithoutPagination",
+    //       data,
+    //     });
+    //     console.log("response>>>>market>>>>", response);
+    //   } catch (error) {
+    //     console.log("errorrr>>>>", error);
+    //   }
+    // },
+  },
 };
 </script>
 
 <style scoped>
+.v-list {
+  margin-top: 50px !important;
+}
 .SearchContainer {
   display: flex;
   align-items: center;

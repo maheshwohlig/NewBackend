@@ -17,8 +17,9 @@
             >
           </v-col>
         </v-row>
+
         <v-row>
-          <v-col class="" cols="12">
+          <v-col class="mb-2" cols="12">
             <v-text-field
               dense
               class=""
@@ -29,6 +30,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="3">
             <div class="px-2">Select TM</div>
@@ -74,6 +76,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="3">
             <div class="px-2">Select MinBet</div>
@@ -119,6 +122,7 @@
             ></v-text-field>
           </v-col>
         </v-row>
+
         <v-row>
           <v-col cols="3">
             <div class="px-2">Select Bet</div>
