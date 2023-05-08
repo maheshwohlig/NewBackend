@@ -1,8 +1,11 @@
 <template>
   <v-app-bar :clipped-left="clipped" fixed app>
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-    <!-- <v-toolbar-title>{{ title }}</v-toolbar-title> -->
-    <!-- <v-img height="inherit" :src="require('@/assets/Img/logo.png')"></v-img> -->
+    <div class="LogoImg">
+      <router-link to="/">
+        <v-img height="inherit" :src="require('@/assets/Img/logo.png')"></v-img>
+      </router-link>
+    </div>
   </v-app-bar>
 </template>
 <script>
@@ -23,4 +26,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.LogoImg {
+  width: 200px;
+}
+</style>

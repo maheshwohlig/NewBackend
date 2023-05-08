@@ -15,26 +15,27 @@
                 v-model="selectedItems"
                 label="Select One Or Many"
                 :items="items"
-                item-text="firstName"
+                item-text="PlayerId"
+                item-value="Player"
                 multiple
                 outlined
                 :menu-props="{ closeOnContentClick: true }"
               >
                 <template v-slot:selection="data">
                   <v-chip
-                    :key="JSON.stringify(data.item)"
+                    :key="JSON.stringify(data.item.Player)"
                     close
                     class="chip--select-multi"
-                    @input="data.parent.selectItem(data.item)"
-                    @click:close="remove(data.item.firstName)"
+                    @input="data.parent.viewMarketData(data.item.Player)"
+                    @click:close="remove(data.item.Player)"
                   >
-                    {{ data.item.firstName }}
+                    {{ data.item.Player }}
                   </v-chip>
                 </template>
                 <template v-slot:item="data">
                   <v-list-item-content>
                     <v-list-item-title>
-                      {{ data.item.firstName }}
+                      {{ data.item.Player }}
                     </v-list-item-title>
                   </v-list-item-content>
                 </template>
@@ -47,39 +48,14 @@
     </v-container>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
       selectedItems: [],
       chosenItems: [],
-      items: [
-        {
-          firstName: "John",
-          lastName: "Smith",
-          Age: 44,
-        },
-        {
-          firstName: "Sarah",
-          lastName: "Martin",
-          Age: 32,
-        },
-        {
-          firstName: "Derick",
-          lastName: "Johnson",
-          Age: 39,
-        },
-        {
-          firstName: "Mary",
-          lastName: "Spitzer",
-          Age: 22,
-        },
-        {
-          firstName: "Wendy",
-          lastName: "Macdonald",
-          Age: 57,
-        },
-      ],
+      items: [],
     };
   },
 
@@ -89,24 +65,39 @@ export default {
       if (index >= 0) this.selectedItems.splice(index, 1);
     },
 
-    // async viewMarketData(event) {
-    //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+    async viewMarketData(event) {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
 
-    //   let data = {
-    //     _accessToken: this.accessToken,
-    //   };
+      let data = {
+        accessLevel: "CompanyMaster",
+        currencyRate: 1,
+        filter: this.selectedItems,
+        page: 1,
+        _accessToken: this.accessToken,
+      };
 
-    //   try {
-    //     const response = await this.$axios({
-    //       method: "Post",
-    //       url: "https://user-backend-api.playexchangeuat.co/api/Member/searchHierarchyWithoutPagination",
-    //       data,
-    //     });
-    //     console.log("response>>>>market>>>>", response);
-    //   } catch (error) {
-    //     console.log("errorrr>>>>", error);
-    //   }
-    // },
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          baseURL: process.env.API_BASE_URL,
+          url: "/api/Member/searchHierarchyWithoutPagination",
+          data,
+        });
+        if (
+          response &&
+          response.data &&
+          response.data.data &&
+          response.data.data.data
+        ) {
+          this.items = response.data.data.data;
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+  },
+  created() {
+    this.viewMarketData(this.selectedItems);
   },
 };
 </script>
@@ -116,6 +107,7 @@ export default {
   margin-top: 50px !important;
 }
 .SearchContainer {
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
