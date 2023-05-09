@@ -1,51 +1,95 @@
 <template>
   <div>
-    <v-container>
-      <v-card class="pa-10 mb-5">
-        <div class="d-flex ml-5">
-          <v-icon size="25" class="mr-5" color="#FB8C00"
-            >mdi-chart-bubble</v-icon
-          >
-          <h2>Hierarchy Search</h2>
-        </div>
-        <div class="mt-10 ml-10">
-          <v-layout row>
-            <v-flex>
-              <v-select
-                v-model="selectedItems"
-                label="Select One Or Many"
-                :items="items"
-                item-text="PlayerId"
-                item-value="Player"
-                multiple
-                outlined
-                :menu-props="{ closeOnContentClick: true }"
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                    :key="JSON.stringify(data.item.Player)"
-                    close
-                    class="chip--select-multi"
-                    @input="data.parent.viewMarketData(data.item.Player)"
-                    @click:close="remove(data.item.Player)"
-                  >
-                    {{ data.item.Player }}
-                  </v-chip>
-                </template>
-                <template v-slot:item="data">
-                  <v-list-item-content>
-                    <v-list-item-title>
+    <div>
+      <v-container>
+        <v-card class="pa-10">
+          <div class="d-flex ml-5">
+            <v-icon size="25" class="mr-5" color="#FB8C00"
+              >mdi-chart-bubble</v-icon
+            >
+            <h2>Hierarchy Search</h2>
+          </div>
+          <div class="mt-10 ml-10">
+            <v-layout row>
+              <v-flex>
+                <v-select
+                  v-model="selectedItems"
+                  label="Select One Or Many"
+                  :items="items"
+                  item-text="PlayerId"
+                  item-value="Player"
+                  multiple
+                  @change="playerSelected(selectedItems)"
+                  outlined
+                  :menu-props="{ closeOnContentClick: true }"
+                >
+                  <template v-slot:selection="data">
+                    <v-chip
+                      :key="JSON.stringify(data.item.Player)"
+                      close
+                      class="chip--select-multi"
+                      @input="data.parent.playerSelected()"
+                      @click:close="remove(data.item.Player)"
+                    >
                       {{ data.item.Player }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </template>
-              </v-select>
-            </v-flex>
-          </v-layout>
-        </div>
-      </v-card>
-      <div class="SearchContainer">Search result will be listed here.</div>
-    </v-container>
+                    </v-chip>
+                  </template>
+                  <template v-slot:item="data">
+                    <v-list-item-content>
+                      <v-list-item-title>
+                        {{ data.item.Player }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </v-select>
+              </v-flex>
+            </v-layout>
+          </div>
+        </v-card>
+      </v-container>
+    </div>
+    <div class="">
+      <v-container>
+        <v-card class="pa-10 mb-5">
+          <v-row justify="center">
+            <v-col cols="12">
+              <div>
+                <v-simple-table
+                  v-if="records.length > 0"
+                  class="py-1 px-3 elevation-1"
+                >
+                  <template v-slot:default>
+                    <thead>
+                      <tr class="grey lighten-25">
+                        <th class="text-left">#</th>
+                        <th class="text-left">Player (P/L)</th>
+                        <th class="text-left">Master (P/L)</th>
+                        <th class="text-left">SM (P/L)</th>
+                        <th class="text-left">DM (P/L)</th>
+                        <th class="text-left">TM (P/L)</th>
+                      </tr>
+                    </thead>
+                    <tbody v-for="(event, i) in records" :key="i">
+                      <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ event.Player }}</td>
+                        <td>{{ event.Master }}</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>{{ event.TripleMaster }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </div>
+            </v-col>
+          </v-row>
+          <div v-if="records.length === 0" class="SearchContainer">
+            Search result will be listed here.
+          </div>
+        </v-card>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -56,6 +100,7 @@ export default {
       selectedItems: [],
       chosenItems: [],
       items: [],
+      records: [],
     };
   },
 
@@ -63,9 +108,10 @@ export default {
     remove(item) {
       const index = this.selectedItems.indexOf(item);
       if (index >= 0) this.selectedItems.splice(index, 1);
+      this.playerSelected(this.selectedItems);
     },
 
-    async viewMarketData(event) {
+    async playerSelected(value) {
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
 
       let data = {
@@ -83,13 +129,22 @@ export default {
           url: "/api/Member/searchHierarchyWithoutPagination",
           data,
         });
+
         if (
           response &&
           response.data &&
           response.data.data &&
           response.data.data.data
         ) {
-          this.items = response.data.data.data;
+          if (value.length === 0) {
+            this.items = response.data.data.data;
+          } else {
+            const resData = response.data.data.data;
+
+            this.records = resData.filter((singleUser) => {
+              return value.includes(singleUser.username);
+            });
+          }
         }
       } catch (error) {
         console.log("errorrr>>>>", error);
@@ -97,7 +152,7 @@ export default {
     },
   },
   created() {
-    this.viewMarketData(this.selectedItems);
+    this.playerSelected(this.selectedItems);
   },
 };
 </script>
@@ -107,7 +162,6 @@ export default {
   margin-top: 50px !important;
 }
 .SearchContainer {
-  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
