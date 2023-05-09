@@ -48,7 +48,7 @@
         </v-card>
       </v-container>
     </div>
-    <div class="">
+    <div>
       <v-container>
         <v-card class="pa-10 mb-5">
           <v-row justify="center">
