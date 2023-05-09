@@ -4,7 +4,7 @@
       <v-card class="pa-5">
         <v-row class="m-0">
           <v-col class="d-flex align-center" cols="12" sm="3" md="3">
-            <v-card-title class="pa-5">bet ticker</v-card-title>
+            <v-card-title class="pa-5">Bet Ticker</v-card-title>
           </v-col>
           <v-col class="d-flex align-center" cols="12" sm="5" md="5">
             <v-btn
@@ -22,6 +22,7 @@
           <v-col class="mb-2" cols="12">
             <v-text-field
               dense
+              v-model="form.userName"
               class=""
               outlined
               label="Search Member"
@@ -36,17 +37,25 @@
             <div class="px-2">Select TM</div>
             <v-text-field
               dense
-              class=""
+              v-model="form.tm"
               outlined
               label="Select TM"
               single-line
               hide-details
             ></v-text-field>
           </v-col>
+          <v-col class="clearMemberBtn" cols="3">
+            <v-btn
+              class="rounded-pill font-weight-bold orange--text v-btn v-btn--depressed v-btn--flat v-btn--outlined theme--dark text--accent-4 mx-3 my-2 py-5 px-15"
+            >
+              Clear Members</v-btn
+            >
+          </v-col>
           <v-col cols="3">
-            <div class="px-2">Select SubGame</div>
+            <div class="px-2">Select SubGames</div>
             <v-select
               outlined
+              v-model="form.subGame"
               :items="items"
               dense
               label="Select TM"
@@ -54,21 +63,10 @@
             ></v-select>
           </v-col>
           <v-col cols="3">
-            <div class="px-2">Min Bet</div>
+            <div class="px-2">Select Event</div>
             <v-text-field
               dense
-              class=""
-              outlined
-              label="Search Member"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-          <v-col cols="3">
-            <div class="px-2">Select Bet</div>
-            <v-text-field
-              class=""
-              dense
+              v-model="form.event"
               outlined
               label="Search Member"
               single-line
@@ -79,9 +77,9 @@
 
         <v-row>
           <v-col cols="3">
-            <div class="px-2">Select MinBet</div>
+            <div class="px-2">Select Market Type</div>
             <v-text-field
-              class=""
+              v-model="form.market"
               dense
               outlined
               label="Select TM"
@@ -90,8 +88,9 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="px-2">Select Bets</div>
+            <div class="px-2">Currency Types</div>
             <v-select
+              v-model="form.currencyType"
               dense
               outlined
               :items="items"
@@ -100,9 +99,10 @@
             ></v-select>
           </v-col>
           <v-col cols="3">
-            <div class="px-2">Select Bet</div>
+            <div class="px-2">Market Types</div>
             <v-text-field
               dense
+              v-model="form.marketType"
               class=""
               outlined
               label="Search Member"
@@ -111,10 +111,10 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="px-2">Select Bet</div>
+            <div class="px-2">Stakes From Value</div>
             <v-text-field
               dense
-              class=""
+              v-model="form.stakesFromValue"
               outlined
               label="Search Member"
               single-line
@@ -125,9 +125,9 @@
 
         <v-row>
           <v-col cols="3">
-            <div class="px-2">Select Bet</div>
+            <div class="px-2">Stakes To Value</div>
             <v-text-field
-              class=""
+              v-model="form.stakesToValue"
               dense
               outlined
               label="Select TM"
@@ -136,8 +136,9 @@
             ></v-text-field>
           </v-col>
           <v-col cols="3">
-            <div class="px-2">Select Bet</div>
+            <div class="px-2">Flag</div>
             <v-select
+              v-model="form.flag"
               outlined
               dense
               :items="items"
@@ -160,86 +161,28 @@
               <template v-slot:default>
                 <thead>
                   <tr class="grey lighten-25">
-                    <th class="text-left">#</th>
-                    <th class="text-left">UserName</th>
-                    <th class="text-left">Currency</th>
-                    <th class="text-left">Credit Limit</th>
-                    <th class="text-left">Net Exposure</th>
-                    <th class="text-left">Take</th>
-                    <th class="text-left">Give</th>
-                    <th class="text-left">Status</th>
-                    <th class="text-left">Info</th>
-                    <th class="text-left">Detail</th>
-                    <th class="text-left">Action</th>
-                    <th class="text-left">Lock</th>
+                    <th class="text-left">Flag</th>
+                    <th class="text-left">Member</th>
+                    <th class="text-left">Place time</th>
+                    <th class="text-left">Matched time</th>
+                    <th class="text-left">Event</th>
+                    <th class="text-left">Market</th>
+                    <th class="text-left">Selection</th>
+                    <th class="text-left">Odds Placed</th>
+                    <th class="text-left">Odds Matched</th>
+                    <th class="text-left">Matched</th>
+                    <th class="text-left">Unmatched</th>
+                    <th class="text-left">Profit/Liability</th>
+                    <th class="text-left">Amount Placed on betfair</th>
+                    <th class="text-left">Betfair Id</th>
+                    <th class="text-left">Betfair Executed</th>
+                    <th class="text-left">Betfair Cancelled</th>
+                    <th class="text-left">IP</th>
+                    <th class="text-left">Multiplier</th>
+                    <th class="text-left">Betfair Status</th>
                   </tr>
                 </thead>
-                <tbody style="overflow-x: auto">
-                  <tr>
-                    <td>1</td>
-                    <td>bunny</td>
-                    <td>POINT@1</td>
-                    <td>1,00,000</td>
-                    <td>NA</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>Active</td>
-                    <td>
-                      <v-icon>mdi-alpha-i-circle-outline</v-icon>
-                    </td>
-                    <td>
-                      <v-btn to="/memberDetails"
-                        ><v-icon>mdi-eye</v-icon></v-btn
-                      >
-                    </td>
-                    <td>
-                      <v-btn @click="newMember('Edit')"
-                        ><v-icon>mdi-pen</v-icon></v-btn
-                      >
-                    </td>
-                    <td class="lockIcon d-flex align-center">
-                      <v-btn @click="showModal()"
-                        ><v-icon>mdi-lock</v-icon></v-btn
-                      >
-                      <member-lists
-                        @clicked="onClickChild"
-                        :visible="isModalVisible"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>bunny</td>
-                    <td>POINT@1</td>
-                    <td>1,00,000</td>
-                    <td>NA</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>Active</td>
-                    <td>
-                      <v-icon>mdi-alpha-i-circle-outline</v-icon>
-                    </td>
-                    <td>
-                      <v-btn to="/memberDetails"
-                        ><v-icon>mdi-eye</v-icon></v-btn
-                      >
-                    </td>
-                    <td>
-                      <v-btn @click="newMember('Edit')"
-                        ><v-icon>mdi-pen</v-icon></v-btn
-                      >
-                    </td>
-                    <td class="lockIcon d-flex align-center">
-                      <v-btn @click="showModal()"
-                        ><v-icon>mdi-lock</v-icon></v-btn
-                      >
-                      <member_accessDetails
-                        @clicked="onClickChild"
-                        :visible="isModalVisible"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody style="overflow-x: auto"></tbody>
               </template>
             </v-simple-table>
           </div>
@@ -253,36 +196,60 @@
   </div>
 </template>
 <script>
-import member_accessDetails from "./model/member_accessDetails.vue";
 export default {
-  components: { member_accessDetails },
-
   data: () => ({
-    items: ["Foo", "Bar", "Fizz", "Buzz"],
-    changeTitle: "",
-    isModalVisible: false,
+    form: {
+      userName: "",
+      tm: "",
+      event: "",
+      subGame: "",
+      markets: "",
+      market: "",
+      currencyType: "",
+      marketType: "",
+      stakesFromValue: "",
+      stakesToValue: "",
+      flag: "",
+    },
+    items: [{ title: "Activity", link: "memberActivity", value: "one" }],
   }),
   methods: {
-    showModal() {
-      this.isModalVisible = !this.isModalVisible;
+    async getAllBets() {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://sportsbookbetticker.playexchangeuat.co/api/Bet/getAllBets",
+          data,
+        });
+
+        if (
+          response &&
+          response.data &&
+          response.data.data &&
+          response.data.data.data
+        ) {
+          this.BetsData = response.data.data.data;
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
     },
-    onClickChild(value) {
-      this.isModalVisible = value;
-    },
-    newMember(data) {
-      this.$router.push({
-        path: `member/${data}`,
-        query: {
-          memberId: "13312312",
-        },
-      });
-    },
+  },
+  created() {
+    this.getAllBets();
   },
 };
 </script>
 <style scoped>
 .seachBtn {
   display: grid;
+}
+
+.clearMemberBtn {
+  display: grid;
+  align-items: center;
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
   display: none !important;
