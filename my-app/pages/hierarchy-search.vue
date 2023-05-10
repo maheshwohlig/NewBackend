@@ -104,13 +104,13 @@ export default {
         page: 1,
       },
       chosenItems: [],
-      records: [],
     };
   },
 
   computed: {
     ...mapState({
       items: (state) => state.memberDetails.userDetails,
+      records: (state) => state.memberDetails.userData,
     }),
   },
 
