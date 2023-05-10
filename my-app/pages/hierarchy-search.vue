@@ -134,46 +134,6 @@ export default {
       console.log("data>>>", data);
       await this.$store.dispatch("memberDetails/getUsersName", data);
     },
-
-    // async getMemberList(value) {
-    //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
-
-    //   let data = {
-    //     accessLevel: "CompanyMaster",
-    //     currencyRate: 1,
-    //     filter: this.selectedItems,
-    //     page: 1,
-    //     _accessToken: this.accessToken,
-    //   };
-
-    //   try {
-    //     const response = await this.$axios({
-    //       method: "Post",
-    //       baseURL: process.env.API_BASE_URL,
-    //       url: "/api/Member/searchHierarchyWithoutPagination",
-    //       data,
-    //     });
-
-    //     if (
-    //       response &&
-    //       response.data &&
-    //       response.data.data &&
-    //       response.data.data.data
-    //     ) {
-    //       if (value.length === 0) {
-    //         this.items = response.data.data.data;
-    //       } else {
-    //         const resData = response.data.data.data;
-
-    //         this.records = resData.filter((singleUser) => {
-    //           return value.includes(singleUser.username);
-    //         });
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log("errorrr>>>>", error);
-    //   }
-    // },
   },
   created() {
     this.getMemberList(this.form);

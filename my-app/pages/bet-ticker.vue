@@ -58,14 +58,16 @@
         <v-row>
           <v-col cols="3">
             <div class="px-2">Select TM</div>
-            <v-text-field
-              dense
-              v-model="form.tm"
+            <v-select
               outlined
+              v-model="form.tm"
+              :items="AllTm"
+              item-text="username"
+              dense
               label="Select TM"
               single-line
               hide-details
-            ></v-text-field>
+            ></v-select>
           </v-col>
           <v-col class="clearMemberBtn" cols="3">
             <v-btn
@@ -79,7 +81,7 @@
             <v-select
               outlined
               v-model="form.subGame"
-              :items="items"
+              :items="subGames"
               dense
               label="Select TM"
               solo
@@ -240,6 +242,8 @@ export default {
       flag: "",
       page: 1,
     },
+    AllTm: [{ username: "All", _id: "all" }],
+    subGames: ["All"],
   }),
   computed: {
     ...mapState({
@@ -247,14 +251,49 @@ export default {
     }),
   },
   methods: {
+    async getAllTm(value) {
+      let data = { name: value };
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          baseURL: process.env.API_BASE_URL,
+          url: "api/member/getAllTm",
+          data,
+        });
+        if (response && response.data && response.data.data) {
+          this.AllTm = this.AllTm.concat(response.data.data);
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+
+    async getSubGames(value) {
+      this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+      let data = { _accessToken: this.accessToken };
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://sportsbookbackend.playexchangeuat.co/api/Bet/getSubGames",
+          data,
+        });
+        console.log("subgame>>>", response);
+        if (response && response.data && response.data.data) {
+          this.subGames = this.subGames.concat(response.data.data);
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+
     remove(item) {
       const index = this.form.userName.indexOf(item);
       if (index >= 0) this.form.userName.splice(index, 1);
-      console.log("this.form", this.form);
       this.getMemberList(this.form);
     },
+
     async getMemberList(resData) {
-      console.log("resData>>>", resData);
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
       let data = {
         accessLevel: "CompanyMaster",
@@ -263,12 +302,13 @@ export default {
         page: resData.page,
         _accessToken: this.accessToken,
       };
-      console.log("data>>>", data);
       await this.$store.dispatch("memberDetails/getUsersName", data);
     },
   },
   created() {
     this.getMemberList(this.form);
+    this.getAllTm({});
+    this.getSubGames();
   },
 };
 </script>

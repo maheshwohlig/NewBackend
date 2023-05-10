@@ -11,7 +11,6 @@ export const mutations = {
   },
   set_userDatas(state, data) {
     state.userDetails = data;
-    console.log("set_userDatas>>>", state.userDetails);
   },
   set_error(state, data) {
     state.error = data;
