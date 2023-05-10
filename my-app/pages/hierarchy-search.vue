@@ -13,13 +13,13 @@
             <v-layout row>
               <v-flex>
                 <v-select
-                  v-model="selectedItems"
-                  label="Select One Or Many"
+                  v-model="form.selectedItems"
+                  placeholder="Enter or Select Member Name to Search"
                   :items="items"
                   item-text="PlayerId"
                   item-value="Player"
                   multiple
-                  @change="playerSelected(selectedItems)"
+                  @change="getMemberList(form)"
                   outlined
                   :menu-props="{ closeOnContentClick: true }"
                 >
@@ -28,7 +28,7 @@
                       :key="JSON.stringify(data.item.Player)"
                       close
                       class="chip--select-multi"
-                      @input="data.parent.playerSelected()"
+                      @input="data.parent.getMemberList(form)"
                       @click:close="remove(data.item.Player)"
                     >
                       {{ data.item.Player }}
@@ -94,65 +94,89 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
-      selectedItems: [],
+      form: {
+        selectedItems: "",
+        page: 1,
+      },
       chosenItems: [],
-      items: [],
       records: [],
     };
   },
 
+  computed: {
+    ...mapState({
+      items: (state) => state.memberDetails.userDetails,
+    }),
+  },
+
   methods: {
     remove(item) {
-      const index = this.selectedItems.indexOf(item);
-      if (index >= 0) this.selectedItems.splice(index, 1);
-      this.playerSelected(this.selectedItems);
+      const index = this.form.selectedItems.indexOf(item);
+      if (index >= 0) this.form.selectedItems.splice(index, 1);
+      this.getMemberList(this.form);
     },
 
-    async playerSelected(value) {
+    async getMemberList(resData) {
+      console.log("resData>>>", resData);
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
-
       let data = {
         accessLevel: "CompanyMaster",
         currencyRate: 1,
-        filter: this.selectedItems,
-        page: 1,
+        filter: resData.selectedItems,
+        page: resData.page,
         _accessToken: this.accessToken,
       };
-
-      try {
-        const response = await this.$axios({
-          method: "Post",
-          baseURL: process.env.API_BASE_URL,
-          url: "/api/Member/searchHierarchyWithoutPagination",
-          data,
-        });
-
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.data
-        ) {
-          if (value.length === 0) {
-            this.items = response.data.data.data;
-          } else {
-            const resData = response.data.data.data;
-
-            this.records = resData.filter((singleUser) => {
-              return value.includes(singleUser.username);
-            });
-          }
-        }
-      } catch (error) {
-        console.log("errorrr>>>>", error);
-      }
+      console.log("data>>>", data);
+      await this.$store.dispatch("memberDetails/getUsersName", data);
     },
+
+    // async getMemberList(value) {
+    //   this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+
+    //   let data = {
+    //     accessLevel: "CompanyMaster",
+    //     currencyRate: 1,
+    //     filter: this.selectedItems,
+    //     page: 1,
+    //     _accessToken: this.accessToken,
+    //   };
+
+    //   try {
+    //     const response = await this.$axios({
+    //       method: "Post",
+    //       baseURL: process.env.API_BASE_URL,
+    //       url: "/api/Member/searchHierarchyWithoutPagination",
+    //       data,
+    //     });
+
+    //     if (
+    //       response &&
+    //       response.data &&
+    //       response.data.data &&
+    //       response.data.data.data
+    //     ) {
+    //       if (value.length === 0) {
+    //         this.items = response.data.data.data;
+    //       } else {
+    //         const resData = response.data.data.data;
+
+    //         this.records = resData.filter((singleUser) => {
+    //           return value.includes(singleUser.username);
+    //         });
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log("errorrr>>>>", error);
+    //   }
+    // },
   },
   created() {
-    this.playerSelected(this.selectedItems);
+    this.getMemberList(this.form);
   },
 };
 </script>

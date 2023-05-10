@@ -18,19 +18,42 @@
           </v-col>
         </v-row>
 
-        <v-row>
-          <v-col class="mb-2" cols="12">
-            <v-text-field
-              dense
-              v-model="form.userName"
-              class=""
-              outlined
-              label="Search Member"
-              single-line
-              hide-details
-            ></v-text-field>
-          </v-col>
-        </v-row>
+        <div class="mt-6 mx-3">
+          <v-layout row>
+            <v-flex>
+              <v-select
+                v-model="form.userName"
+                placeholder="Enter or Select Member Name to Search"
+                :items="items"
+                item-text="PlayerId"
+                item-value="Player"
+                multiple
+                @change="getMemberList(form)"
+                outlined
+                :menu-props="{ closeOnContentClick: true }"
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    :key="JSON.stringify(data.item.Player)"
+                    close
+                    class="chip--select-multi"
+                    @input="data.parent.getMemberList(form)"
+                    @click:close="remove(data.item.Player)"
+                  >
+                    {{ data.item.Player }}
+                  </v-chip>
+                </template>
+                <template v-slot:item="data">
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ data.item.Player }}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </template>
+              </v-select>
+            </v-flex>
+          </v-layout>
+        </div>
 
         <v-row>
           <v-col cols="3">
@@ -188,7 +211,11 @@
           </div>
 
           <v-flex xs12 md3>
-            <v-pagination :length="15" :total-visible="7"></v-pagination>
+            <v-pagination
+              v-model="form.page"
+              :length="15"
+              :total-visible="7"
+            ></v-pagination>
           </v-flex>
         </v-col>
       </v-row>
@@ -196,6 +223,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data: () => ({
     form: {
@@ -210,35 +238,37 @@ export default {
       stakesFromValue: "",
       stakesToValue: "",
       flag: "",
+      page: 1,
     },
-    items: [{ title: "Activity", link: "memberActivity", value: "one" }],
   }),
+  computed: {
+    ...mapState({
+      items: (state) => state.memberDetails.userDetails,
+    }),
+  },
   methods: {
-    async getAllBets() {
+    remove(item) {
+      const index = this.form.userName.indexOf(item);
+      if (index >= 0) this.form.userName.splice(index, 1);
+      console.log("this.form", this.form);
+      this.getMemberList(this.form);
+    },
+    async getMemberList(resData) {
+      console.log("resData>>>", resData);
       this.accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
-
-      try {
-        const response = await this.$axios({
-          method: "Post",
-          url: "https://sportsbookbetticker.playexchangeuat.co/api/Bet/getAllBets",
-          data,
-        });
-
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.data
-        ) {
-          this.BetsData = response.data.data.data;
-        }
-      } catch (error) {
-        console.log("errorrr>>>>", error);
-      }
+      let data = {
+        accessLevel: "CompanyMaster",
+        currencyRate: 1,
+        filter: resData.userName,
+        page: resData.page,
+        _accessToken: this.accessToken,
+      };
+      console.log("data>>>", data);
+      await this.$store.dispatch("memberDetails/getUsersName", data);
     },
   },
   created() {
-    this.getAllBets();
+    this.getMemberList(this.form);
   },
 };
 </script>
