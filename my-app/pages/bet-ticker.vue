@@ -82,6 +82,7 @@
               outlined
               v-model="form.subGame"
               :items="subGames"
+              @change="getEvent(form)"
               dense
               label="Select TM"
               solo
@@ -89,28 +90,33 @@
           </v-col>
           <v-col cols="3">
             <div class="px-2">Select Event</div>
-            <v-text-field
+            <v-select
               dense
               v-model="form.event"
+              :items="eventsList"
+              item-text="name"
+              @change="getMarket(form)"
               outlined
-              label="Search Member"
+              label="Search Event"
               single-line
               hide-details
-            ></v-text-field>
+            ></v-select>
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="3">
             <div class="px-2">Select Market Type</div>
-            <v-text-field
-              v-model="form.market"
+            <v-select
               dense
+              v-model="form.market"
+              :items="marketsList"
+              item-text="name"
               outlined
-              label="Select TM"
+              label="Search Market"
               single-line
               hide-details
-            ></v-text-field>
+            ></v-select>
           </v-col>
           <v-col cols="3">
             <div class="px-2">Currency Types</div>
@@ -118,26 +124,27 @@
               v-model="form.currencyType"
               dense
               outlined
-              :items="items"
+              :items="currencyTypes"
               label="Select TM"
               solo
             ></v-select>
           </v-col>
           <v-col cols="3">
             <div class="px-2">Market Types</div>
-            <v-text-field
+            <v-select
               dense
               v-model="form.marketType"
-              class=""
+              :items="marketTypes"
               outlined
               label="Search Member"
               single-line
               hide-details
-            ></v-text-field>
+            ></v-select>
           </v-col>
           <v-col cols="3">
             <div class="px-2">Stakes From Value</div>
             <v-text-field
+              type="number"
               dense
               v-model="form.stakesFromValue"
               outlined
@@ -153,6 +160,7 @@
             <div class="px-2">Stakes To Value</div>
             <v-text-field
               v-model="form.stakesToValue"
+              type="number"
               dense
               outlined
               label="Select TM"
@@ -164,9 +172,9 @@
             <div class="px-2">Flag</div>
             <v-select
               v-model="form.flag"
+              :items="flags"
               outlined
               dense
-              :items="items"
               label="Select TM"
               solo
             ></v-select>
@@ -232,18 +240,23 @@ export default {
       userName: "",
       tm: "",
       event: "",
-      subGame: "",
+      subGame: "All",
       markets: "",
       market: "",
-      currencyType: "",
-      marketType: "",
+      currencyType: "All",
+      marketType: "All",
       stakesFromValue: "",
       stakesToValue: "",
-      flag: "",
+      flag: "All",
       page: 1,
     },
     AllTm: [{ username: "All", _id: "all" }],
+    eventsList: [{ name: "All", _id: "all" }],
+    marketsList: [{ name: "All", _id: "all" }],
+    currencyTypes: ["All", "INR", "POINTS", "POINT@1"],
+    marketTypes: ["All", "Match Odds", "Bookmaker", "Fancy", "Linesession"],
     subGames: ["All"],
+    flags: ["All", "Flagged Bets"],
   }),
   computed: {
     ...mapState({
@@ -251,6 +264,51 @@ export default {
     }),
   },
   methods: {
+    async getAllBets(data) {
+      data._accessToken = JSON.parse(localStorage.getItem("accessToken"))[0];
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://sportsbookbetticker.playexchangeuat.co/api/Bet/getAllBets",
+          data,
+        });
+
+        console.log("getallbets>", response.data.data.results);
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+    async getMarket(data) {
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://sportsbookbackend.playexchangeuat.co/api/Bet/getMarketsForBetTicker",
+          data,
+        });
+
+        if (response && response.data && response.data.data) {
+          this.marketsList = this.marketsList.concat(response.data.data);
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+    async getEvent(data) {
+      try {
+        const response = await this.$axios({
+          method: "Post",
+          url: "https://sportsbookbackend.playexchangeuat.co/api/Bet/getEventsForBetTicker",
+          data,
+        });
+
+        if (response && response.data && response.data.data) {
+          this.eventsList = this.eventsList.concat(response.data.data);
+        }
+      } catch (error) {
+        console.log("errorrr>>>>", error);
+      }
+    },
+
     async getAllTm(value) {
       let data = { name: value };
       try {
@@ -278,7 +336,6 @@ export default {
           url: "https://sportsbookbackend.playexchangeuat.co/api/Bet/getSubGames",
           data,
         });
-        console.log("subgame>>>", response);
         if (response && response.data && response.data.data) {
           this.subGames = this.subGames.concat(response.data.data);
         }
@@ -309,6 +366,7 @@ export default {
     this.getMemberList(this.form);
     this.getAllTm({});
     this.getSubGames();
+    this.getAllBets(this.form);
   },
 };
 </script>
